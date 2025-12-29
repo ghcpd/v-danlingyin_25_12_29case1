@@ -1,0 +1,41 @@
+{
+  "summary": {
+    "total_issues": 3,
+    "critical": 3,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "issues": [
+    {
+      "id": 1,
+      "file": "README.md",
+      "line_numbers": [15],
+      "issue_type": "Incorrect default value",
+      "severity": "Critical",
+      "description": "Documentation states 'Default: 1' but code implements default value of 3",
+      "reproduction_result": "A new developer would set up the service expecting default retryCount=1, but the actual default is 3. This causes unexpected behavior.",
+      "fix_explanation": "Change 'Default: 1' to 'Default: 3' to match the code: const retryCount = config.retryCount ?? 3;"
+    },
+    {
+      "id": 2,
+      "file": "README.md",
+      "line_numbers": [14],
+      "issue_type": "Incorrect configuration range",
+      "severity": "Critical",
+      "description": "Documentation states 'Range: 0–10' but code validates against range 1-5",
+      "reproduction_result": "Following the documented range, a developer could set retryCount=0 or retryCount=10, both of which would throw an error: 'retryCount must be between 1 and 5'",
+      "fix_explanation": "Change 'Range: 0–10' to 'Range: 1–5' to match the validation in input.ts: if (retryCount < 1 || retryCount > 5)"
+    },
+    {
+      "id": 3,
+      "file": "README.md",
+      "line_numbers": [19],
+      "issue_type": "Invalid example configuration",
+      "severity": "Critical",
+      "description": "Example shows startService({ retryCount: 0 }) but value 0 is outside the valid range",
+      "reproduction_result": "Running the documented example throws error: 'retryCount must be between 1 and 5'",
+      "fix_explanation": "Replace example 'startService({ retryCount: 0 })' with 'startService({ retryCount: 2 })' to use a valid value within the range 1-5"
+    }
+  ]
+}
