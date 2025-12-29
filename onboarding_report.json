@@ -1,0 +1,61 @@
+{
+  "summary": {
+    "total_issues": 5,
+    "critical": 2,
+    "high": 2,
+    "medium": 1,
+    "low": 0
+  },
+  "issues": [
+    {
+      "id": 1,
+      "file": "README.md",
+      "line_numbers": [14],
+      "issue_type": "Incorrect configuration (range)",
+      "severity": "Critical",
+      "description": "README states \"Range: 0–10\" but `input.ts` enforces 1–5 (throws if value <1 or >5).",
+      "reproduction_result": "Following README and using retryCount 0 will cause the function to throw: 'retryCount must be between 1 and 5'.",
+      "fix_explanation": "Update README to show Range: 1–5 to match `input.ts` enforcement."
+    },
+    {
+      "id": 2,
+      "file": "README.md",
+      "line_numbers": [15],
+      "issue_type": "Incorrect default value",
+      "severity": "High",
+      "description": "README states Default: 1 but `input.ts` sets default to 3 via `config.retryCount ?? 3`.",
+      "reproduction_result": "Calling startService() without `retryCount` results in a default of 3 (not 1).",
+      "fix_explanation": "Update README to state Default: 3 (or change code if desired)."
+    },
+    {
+      "id": 3,
+      "file": "README.md",
+      "line_numbers": [5,9],
+      "issue_type": "Broken setup flow / Missing step",
+      "severity": "Critical",
+      "description": "README advises `npm install` and `npm start` but the repository has no `package.json` or start script.\nThere are no instructions to initialize npm or install TypeScript tooling required to run `.ts` files.",
+      "reproduction_result": "Running `npm start` in the repo as-is fails with 'missing script: start' or does nothing if package.json is absent. Dependencies won't be installed because there is no package.json.",
+      "fix_explanation": "Add explicit steps to initialize npm (e.g. `npm init -y`), install `typescript` and `ts-node`, and either add a `start` script or show `npx ts-node index.ts`."
+    },
+    {
+      "id": 4,
+      "file": "README.md",
+      "line_numbers": [17,19],
+      "issue_type": "Incorrect example / misleading",
+      "severity": "High",
+      "description": "Example shows `startService({ retryCount: 0 })` which violates the code's enforced range and will throw at runtime. The README also implies running the service will produce output, but `input.ts` does not invoke the function directly.",
+      "reproduction_result": "Using the example causes an immediate Error: 'retryCount must be between 1 and 5'. Running the repository files without invoking `startService` produces no console output.",
+      "fix_explanation": "Replace example with a valid value (e.g. 3) and add an executable step that calls `startService` (e.g., create `index.ts` that imports and calls `startService`, then run with `npx ts-node index.ts`)."
+    },
+    {
+      "id": 5,
+      "file": "input.ts",
+      "line_numbers": [7,8],
+      "issue_type": "Missing invocation / documentation mismatch",
+      "severity": "Medium",
+      "description": "`input.ts` exports `startService` but doesn't invoke it. The README suggests 'Run the service' to see output, which is not true unless the exported function is invoked.",
+      "reproduction_result": "Running the TypeScript files directly (with ts-node) will not print anything unless `startService` is called from an entrypoint.",
+      "fix_explanation": "Update README with explicit instructions to invoke `startService` (for example by creating `index.ts` that imports and calls it), or add a simple entrypoint script."
+    }
+  ]
+}
