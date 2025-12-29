@@ -1,0 +1,51 @@
+{
+  "summary": {
+    "total_issues": 4,
+    "critical": 1,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  "issues": [
+    {
+      "id": 1,
+      "file": "README.md",
+      "line_numbers": [5, 6],
+      "issue_type": "Missing step",
+      "severity": "Critical",
+      "description": "Documentation instructs to run 'npm install' but no package.json exists in the project, causing setup to fail.",
+      "reproduction_result": "npm install fails with 'Could not read package.json: ENOENT'.",
+      "fix_explanation": "Removed npm-based setup steps as they are not applicable; provided direct usage instructions instead."
+    },
+    {
+      "id": 2,
+      "file": "README.md",
+      "line_numbers": [11],
+      "issue_type": "Incorrect command",
+      "severity": "High",
+      "description": "Range specified as 0–10, but code enforces 1–5.",
+      "reproduction_result": "Calling startService with retryCount=0 throws error 'retryCount must be between 1 and 5'.",
+      "fix_explanation": "Updated range to 1–5 to match code."
+    },
+    {
+      "id": 3,
+      "file": "README.md",
+      "line_numbers": [12],
+      "issue_type": "Incorrect default value",
+      "severity": "High",
+      "description": "Default specified as 1, but code uses 3.",
+      "reproduction_result": "Omitting retryCount uses 3, not 1.",
+      "fix_explanation": "Updated default to 3."
+    },
+    {
+      "id": 4,
+      "file": "README.md",
+      "line_numbers": [14, 16],
+      "issue_type": "Incorrect command",
+      "severity": "High",
+      "description": "Example uses retryCount: 0, which is invalid per code.",
+      "reproduction_result": "Throws error for invalid value.",
+      "fix_explanation": "Updated example to use valid value 3 and added import statement."
+    }
+  ]
+}
