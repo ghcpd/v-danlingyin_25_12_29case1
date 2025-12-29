@@ -1,0 +1,61 @@
+{
+  "summary": {
+    "total_issues": 5,
+    "critical": 4,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "issues": [
+    {
+      "id": 1,
+      "file": "README.md",
+      "line_numbers": [13, 14],
+      "issue_type": "Incorrect configuration range",
+      "severity": "Critical",
+      "description": "README states 'Range: 0–10' for retryCount but the code enforces 1–5.",
+      "reproduction_result": "Passing values outside 1–5 (for example 0 or 10) will cause the function to throw at runtime.",
+      "fix_explanation": "Update README to state the correct allowed range (1–5) to match input.ts (lines enforcing range)."
+    },
+    {
+      "id": 2,
+      "file": "README.md",
+      "line_numbers": [15],
+      "issue_type": "Incorrect default value",
+      "severity": "High",
+      "description": "README documents default retryCount as 1 but input.ts uses a default of 3.",
+      "reproduction_result": "A developer relying on the documented default (1) will be surprised; actual runs without an explicit value use 3.",
+      "fix_explanation": "Change README default to 3 so documentation matches code (see input.ts default assignment)."
+    },
+    {
+      "id": 3,
+      "file": "README.md",
+      "line_numbers": [18, 19],
+      "issue_type": "Incorrect example / invalid configuration",
+      "severity": "Critical",
+      "description": "Example shows startService({ retryCount: 0 }) — 0 is outside the allowed range in the code and will throw an error.",
+      "reproduction_result": "Following the example causes a runtime error: \"retryCount must be between 1 and 5\".",
+      "fix_explanation": "Replace the example with a valid value (e.g. retryCount: 1 or 3) and add a note that out-of-range values throw an error."
+    },
+    {
+      "id": 4,
+      "file": "README.md",
+      "line_numbers": [5, 6, 8, 9],
+      "issue_type": "Broken setup flow / missing project scripts",
+      "severity": "Critical",
+      "description": "README instructs to run 'npm install' and 'npm start', but the repository contains no package.json or npm start script and therefore those commands are not reproducible.",
+      "reproduction_result": "Running 'npm install' or 'npm start' in the repo will not produce the documented result (no dependencies to install, and 'npm start' will fail).",
+      "fix_explanation": "Document how to run the module (provide a small runner or show npx/ts-node commands) or add a package.json with a start script. The fixed README provides a reproducible runner example."
+    },
+    {
+      "id": 5,
+      "file": "input.ts",
+      "line_numbers": [6, 7, 9, 10],
+      "issue_type": "Missing runnable entrypoint",
+      "severity": "Critical",
+      "description": "`input.ts` only exports `startService` and does not call it; there is no runnable default entrypoint (so 'run the service' is not possible without adding a runner).",
+      "reproduction_result": "Executing the TypeScript file directly (even with ts-node) produces no output because the function is never invoked.",
+      "fix_explanation": "Either add an entrypoint script that calls `startService()` or update documentation to show how to create/run a small runner (README_fixed.md includes the runner example)."
+    }
+  ]
+}
